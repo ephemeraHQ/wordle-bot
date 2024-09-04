@@ -17,6 +17,10 @@ run(async (context: HandlerContext) => {
       await context.reply("https://framedl.xyz/");
     } else if (text === "🔎") {
       await context.reply("https://framedl.xyz/");
+    } else if (text === "/help") {
+      await context.reply(
+        "For using this bot you can use the following commands:\n\n/wordle - To start the game\n🔍 or 🔎 - To start the game\nReact with 🔁or 🔂 - To start the game\n/help - To see the help menu"
+      );
     }
   } else if (typeId === "reaction") {
     const {
