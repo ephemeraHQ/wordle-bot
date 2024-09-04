@@ -1,5 +1,5 @@
 {
-  "name": "invite-bot",
+  "name": "wordle-bot",
   "private": true,
   "type": "module",
   "scripts": {
