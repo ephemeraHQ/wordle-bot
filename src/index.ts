@@ -12,13 +12,13 @@ run(async (context: HandlerContext) => {
       },
     } = context;
     if (text === "/wordle") {
-      await context.reply("https://framedl.xyz/");
+      await context.send("https://framedl.xyz/");
     } else if (text === "🔍") {
-      await context.reply("https://framedl.xyz/");
+      await context.send("https://framedl.xyz/");
     } else if (text === "🔎") {
-      await context.reply("https://framedl.xyz/");
+      await context.send("https://framedl.xyz/");
     } else if (text === "/help") {
-      await context.reply(
+      await context.send(
         "For using this bot you can use the following commands:\n\n/wordle - To start the game\n🔍 or 🔎 - To start the game\nReact with 🔁or 🔂 - To start the game\n/help - To see the help menu"
       );
     }
@@ -28,7 +28,10 @@ run(async (context: HandlerContext) => {
         content: { content: emoji, action },
       },
     } = context;
-    if (action === "added" && (emoji === "🔂" || emoji === "🔁")) {
+    if (
+      action === "added" &&
+      (emoji === "🔂" || emoji === "🔍" || emoji === "🔎" || emoji === "🔁")
+    ) {
       await context.send("https://framedl.xyz/");
     }
   }
