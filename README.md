@@ -31,6 +31,7 @@ Set up these variables in your app
 
 ```sh
 KEY= # 0x... the private key of the app (with the 0x prefix)
+REDIS_CONNECTION_STRING= #redis url
 MSG_LOG=true # logs the message on the console
 ```
 
