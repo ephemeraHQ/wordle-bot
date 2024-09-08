@@ -1,15 +1,13 @@
-import { getRedisClient } from "./lib/redis.js";
 import { HandlerContext } from "@xmtp/message-kit";
+import { RedisClientType } from "@redis/client";
 
-//Tracks conversation steps
 const inMemoryCacheStep = new Map<string, number>();
-
-//List of words to stop or unsubscribe.
 const stopWords = ["stop", "unsubscribe", "cancel", "list"];
 
-const redisClient = await getRedisClient();
-
-export async function handleSubscribe(context: HandlerContext) {
+export async function handleSubscribe(
+  context: HandlerContext,
+  redisClient: RedisClientType
+) {
   const {
     message: {
       content: { content: text },

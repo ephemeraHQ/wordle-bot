@@ -1,19 +1,31 @@
-import { run, HandlerContext } from "@xmtp/message-kit";
+import { run, HandlerContext, xmtpClient } from "@xmtp/message-kit";
 import { handleSubscribe } from "./subscribe.js";
+import { startCron } from "./lib/cron.js";
+import { RedisClientType } from "@redis/client";
+import { getRedisClient } from "./lib/redis.js";
+
+const redisClient: RedisClientType = await getRedisClient();
+const { v2client } = await xmtpClient();
+startCron(redisClient, v2client);
 
 run(async (context: HandlerContext) => {
   const {
     message: { typeId },
     version,
+    v2client,
   } = context;
-  if (version === "v2") handleSubscribe(context);
+
+  if (version === "v2") handleSubscribe(context, redisClient);
   if (typeId === "text" || typeId === "reply") {
     const {
       message: {
         content: { content: text },
       },
     } = context;
-    if (text === "/wordle") {
+
+    if (text === "/arena") {
+      await context.send("https://www.framedl.xyz/games/arena/create");
+    } else if (text === "/wordle") {
       await context.send("https://framedl.xyz/");
     } else if (text === "🔍") {
       await context.send("https://framedl.xyz/");

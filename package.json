@@ -12,7 +12,8 @@
     "@notionhq/client": "^2.2.15",
     "@redis/client": "^1.6.0",
     "@xmtp/message-kit": "^0.0.13",
-    "ethers": "^5.7.0"
+    "ethers": "^5.7.0",
+    "node-cron": "^3.0.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.2",
