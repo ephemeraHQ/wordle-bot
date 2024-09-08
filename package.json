@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
-    "@redis/client": "^1.5.16",
+    "@redis/client": "^1.6.0",
     "@xmtp/message-kit": "^0.0.13",
     "ethers": "^5.7.0"
   },

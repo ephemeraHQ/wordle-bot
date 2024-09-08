@@ -1,10 +1,12 @@
 import { run, HandlerContext } from "@xmtp/message-kit";
+import { handleSubscribe } from "./subscribe.js";
 
 run(async (context: HandlerContext) => {
   const {
     message: { typeId },
+    version,
   } = context;
-  console.log(typeId);
+  if (version === "v2") handleSubscribe(context);
   if (typeId === "text" || typeId === "reply") {
     const {
       message: {
