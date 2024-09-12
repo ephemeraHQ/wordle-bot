@@ -25,7 +25,7 @@ run(async (context: HandlerContext) => {
 
     if (text === "/arena") {
       await context.send("https://www.framedl.xyz/games/arena/create");
-    } else if (text === "/wordle") {
+    } else if (text === "/wordle" || text === "@wordle") {
       await context.send("https://framedl.xyz/");
     } else if (text === "🔍") {
       await context.send("https://framedl.xyz/");
