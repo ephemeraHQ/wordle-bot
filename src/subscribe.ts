@@ -46,5 +46,6 @@ export async function handleSubscribe(
     );
     await context.send("To unsubscribe from a daily Wordle, send STOP");
     await context.send("And now, for your first Wordle:");
+    await context.send("https://framedl.xyz");
   }
 }
