@@ -1,4 +1,4 @@
-# worlde-bot
+# wordle-bot
 
 Message or add `wordlebot.eth`
 
@@ -11,7 +11,7 @@ Follow these steps to set up and run the project:
 1. **Navigate to the project directory:**
 
    ```sh
-   cd ./worlde-bot
+   cd ./wordle-bot
    ```
 
 2. **Install dependencies:**
