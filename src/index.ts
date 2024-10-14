@@ -86,8 +86,8 @@ run(async (context: HandlerContext) => {
       await context.send(
         "For using this bot you can use the following commands:\n\n" +
           "/wordle -  To start the game\n" +
+          "/arena <word count> <audience size> - To start the arena game\n" +
           "React or send 🔍 or 🔎 - To start the game\n" +
-          "React with 🔁 or 🔂 - To start the game\n" +
           "/help - To see commands"
       );
     }
