@@ -4,10 +4,6 @@ import { startCron } from "./lib/cron.js";
 import { RedisClientType } from "@redis/client";
 import { getRedisClient } from "./lib/redis.js";
 
-const redisClient: RedisClientType = await getRedisClient();
-const { v2client } = await xmtpClient();
-startCron(redisClient, v2client);
-
 async function handleArenaMessage(context: HandlerContext) {
   const {
     message: {
@@ -64,7 +60,6 @@ run(
     const {
       message: { typeId },
       version,
-      v2client,
     } = context;
 
     if (version === "v2") handleSubscribe(context, redisClient);
@@ -107,6 +102,10 @@ run(
     }
   },
   {
-    logging: process.env.NODE_ENV === "production" ? "debug" : "off",
+    logging: "debug",
   }
 );
+
+const redisClient: RedisClientType = await getRedisClient();
+const { v2client } = await xmtpClient();
+startCron(redisClient, v2client);
