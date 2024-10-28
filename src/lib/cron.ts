@@ -25,7 +25,7 @@ export async function startCron(
             await targetConversation.send(
               "A new daily Wordle is out! Play it now:"
             );
-            await targetConversation.send("https://framedl.xyz/");
+            await targetConversation.send("https://framedl.xyz");
           }
         }
       }

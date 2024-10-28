@@ -80,11 +80,11 @@ run(
       if (text.startsWith("/arena")) {
         await handleArenaMessage(context);
       } else if (text === "/wordle" || text === "@wordle") {
-        await context.send("https://framedl.xyz/");
+        await context.send("https://framedl.xyz");
       } else if (text === "🔍") {
-        await context.send("https://framedl.xyz/");
+        await context.send("https://framedl.xyz");
       } else if (text === "🔎") {
-        await context.send("https://framedl.xyz/");
+        await context.send("https://framedl.xyz");
       } else if (text === "/help") {
         await context.send(
           "For using this bot you can use the following commands:\n\n" +
@@ -104,7 +104,7 @@ run(
         action === "added" &&
         (emoji === "🔂" || emoji === "🔍" || emoji === "🔎" || emoji === "🔁")
       ) {
-        await context.send("https://framedl.xyz/");
+        await context.send("https://framedl.xyz");
       }
     }
   },
