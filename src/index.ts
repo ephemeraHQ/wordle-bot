@@ -5,9 +5,7 @@ import { RedisClientType } from "@redis/client";
 import { getRedisClient } from "./lib/redis.js";
 
 const redisClient: RedisClientType = await getRedisClient();
-const { v2client } = await xmtpClient({
-  logging: process.env.NODE_ENV === "production" ? "debug" : "off",
-});
+const { v2client } = await xmtpClient({ hideLog: true });
 startCron(redisClient, v2client);
 
 async function handleArenaMessage(context: HandlerContext) {
