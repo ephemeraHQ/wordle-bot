@@ -91,18 +91,6 @@ run(
             "/help - To see commands"
         );
       }
-    } else if (typeId === "reaction") {
-      const {
-        message: {
-          content: { content: emoji, action },
-        },
-      } = context;
-      if (
-        action === "added" &&
-        (emoji === "🔂" || emoji === "🔍" || emoji === "🔎" || emoji === "🔁")
-      ) {
-        await context.send("https://framedl.xyz");
-      }
     }
   },
   {
