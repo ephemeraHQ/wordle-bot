@@ -24,7 +24,7 @@ async function handleArenaMessage(context: HandlerContext) {
     await context.send("https://www.framedl.xyz/games/arena/create");
     return;
   }
-  const participantCount = (members || []).filter((m) => !m.fake).length - 1;
+  const participantCount = members && members.length ? members.length - 1 : 0;
   const args = text.split(" ");
   const wordCountArg = args[1] ? parseInt(args[1], 10) : 3;
   const audienceSizeArg = args[2] ? parseInt(args[2], 10) : participantCount;
@@ -64,7 +64,6 @@ run(
     const {
       message: { typeId },
       version,
-      v2client,
     } = context;
 
     if (version === "v2") handleSubscribe(context, redisClient);
@@ -77,18 +76,18 @@ run(
 
       if (text.startsWith("/arena")) {
         await handleArenaMessage(context);
-      } else if (text === "/wordle" || text === "@wordle") {
-        await context.send("https://framedl.xyz");
-      } else if (text === "🔍") {
-        await context.send("https://framedl.xyz");
-      } else if (text === "🔎") {
+      } else if (
+        text === "/wordle" ||
+        text === "@wordle" ||
+        text === "🔍" ||
+        text === "🔎"
+      ) {
         await context.send("https://framedl.xyz");
       } else if (text === "/help") {
         await context.send(
           "For using this bot you can use the following commands:\n\n" +
-            "/wordle -  To start the game\n" +
+            "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
             "/arena <word count> <audience size> - To start the arena game\n" +
-            "React or send 🔍 or 🔎 - To start the game\n" +
             "/help - To see commands"
         );
       }

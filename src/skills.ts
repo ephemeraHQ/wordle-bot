@@ -1,10 +1,10 @@
-import type { CommandGroup } from "@xmtp/message-kit";
+import type { SkillGroup } from "@xmtp/message-kit";
 
-export const commands: CommandGroup[] = [
+export const skills: SkillGroup[] = [
   {
     name: "Games",
     description: "Provides various gaming experiences.",
-    commands: [
+    skills: [
       {
         command: "/wordle",
         triggers: ["/wordle", "@wordle", "🔎", "🔍"],
@@ -17,7 +17,7 @@ export const commands: CommandGroup[] = [
   {
     name: "Arena",
     description: "Provides various gaming experiences.",
-    commands: [
+    skills: [
       {
         command: "/arena [word count] [audience size]",
         triggers: ["/arena", "@arena"],
