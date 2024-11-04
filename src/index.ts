@@ -8,9 +8,10 @@ const redisClient: RedisClientType = await getRedisClient();
 const { v2client } = await xmtpClient({
   hideInitLogMessage: true,
   client: {
-    logging: "debug",
+    logging: process.env.NODE_ENV === "production" ? "debug" : "off",
   },
 });
+
 startCron(redisClient, v2client);
 
 async function handleArenaMessage(context: HandlerContext) {
