@@ -6,7 +6,7 @@ export async function startCron(
   redisClient: RedisClientType,
   v2client: Client
 ) {
-  console.log("Starting daily cron");
+  console.warn("\t- Starting daily cron");
   const conversations = await v2client.conversations.list();
   cron.schedule(
     "0 0 * * *", // Daily or every 5 seconds in debug mode
