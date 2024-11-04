@@ -64,43 +64,36 @@ async function handleArenaMessage(context: HandlerContext) {
   }
 }
 
-run(
-  async (context: HandlerContext) => {
+run(async (context: HandlerContext) => {
+  const {
+    message: { typeId },
+    version,
+  } = context;
+
+  if (version === "v2") handleSubscribe(context, redisClient);
+  if (typeId === "text" || typeId === "reply") {
     const {
-      message: { typeId },
-      version,
+      message: {
+        content: { content: text },
+      },
     } = context;
 
-    if (version === "v2") handleSubscribe(context, redisClient);
-    if (typeId === "text" || typeId === "reply") {
-      const {
-        message: {
-          content: { content: text },
-        },
-      } = context;
-
-      if (text.startsWith("/arena")) {
-        await handleArenaMessage(context);
-      } else if (
-        text === "/wordle" ||
-        text === "@wordle" ||
-        text === "🔍" ||
-        text === "🔎"
-      ) {
-        await context.send("https://framedl.xyz");
-      } else if (text === "/help") {
-        await context.send(
-          "For using this bot you can use the following commands:\n\n" +
-            "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
-            "/arena <word count> <audience size> - To start the arena game\n" +
-            "/help - To see commands"
-        );
-      }
+    if (text.startsWith("/arena")) {
+      await handleArenaMessage(context);
+    } else if (
+      text === "/wordle" ||
+      text === "@wordle" ||
+      text === "🔍" ||
+      text === "🔎"
+    ) {
+      await context.send("https://framedl.xyz");
+    } else if (text === "/help") {
+      await context.send(
+        "For using this bot you can use the following commands:\n\n" +
+          "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
+          "/arena <word count> <audience size> - To start the arena game\n" +
+          "/help - To see commands"
+      );
     }
-  },
-  {
-    client: {
-      logging: "debug",
-    },
   }
-);
+});
