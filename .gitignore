@@ -21,3 +21,4 @@ yarn-error.log*
 .yarn/
 .pnpm/
 .pnpm-workspace/
+.DS_Store
