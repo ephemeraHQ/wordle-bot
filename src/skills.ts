@@ -12,6 +12,14 @@ export const skills: SkillGroup[] = [
         description: "Play wordle.",
         params: {},
       },
+      {
+        command: "/id",
+        adminOnly: true,
+        handler: undefined,
+        triggers: ["/id"],
+        description: "Get the group ID.",
+        params: {},
+      },
     ],
   },
   {

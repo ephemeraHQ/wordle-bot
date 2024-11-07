@@ -3,16 +3,61 @@ import { handleSubscribe } from "./subscribe.js";
 import { startCron } from "./lib/cron.js";
 import { RedisClientType } from "@redis/client";
 import { getRedisClient } from "./lib/redis.js";
+import { startDMToGroupEvery5Seconds } from "./lib/cron.js";
 
 const redisClient: RedisClientType = await getRedisClient();
-const { v2client } = await xmtpClient({
+const { v2client, client: v3client } = await xmtpClient({
   hideInitLogMessage: true,
   client: {
     logging: process.env.NODE_ENV === "production" ? "debug" : "off",
   },
 });
 
+//startDMToGroupEvery5Seconds(v3client, "5ce08d7eb4270f4b8e3f13670d7c571a");
 startCron(redisClient, v2client);
+
+run(async (context: HandlerContext) => {
+  const {
+    message: {
+      typeId,
+      content: { content: text },
+    },
+    version,
+    group,
+  } = context;
+
+  if (text.startsWith("/id")) {
+    console.log(group.id);
+    context.send(`This group id is: ${group.id}`);
+    return;
+  }
+  if (version === "v2") handleSubscribe(context, redisClient);
+  if (typeId === "text" || typeId === "reply") {
+    const {
+      message: {
+        content: { content: text },
+      },
+    } = context;
+
+    if (text.startsWith("/arena")) {
+      await handleArenaMessage(context);
+    } else if (
+      text === "/wordle" ||
+      text === "@wordle" ||
+      text === "🔍" ||
+      text === "🔎"
+    ) {
+      await context.send("https://framedl.xyz");
+    } else if (text === "/help") {
+      await context.send(
+        "For using this bot you can use the following commands:\n\n" +
+          "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
+          "/arena <word count> <audience size> - To start the arena game\n" +
+          "/help - To see commands"
+      );
+    }
+  }
+});
 
 async function handleArenaMessage(context: HandlerContext) {
   const {
@@ -21,9 +66,11 @@ async function handleArenaMessage(context: HandlerContext) {
     },
     members,
   } = context;
+
   if (!text.startsWith("/arena")) {
     return;
   }
+
   const apiKey = process.env.FRAMEDL_API_KEY;
   if (!apiKey) {
     console.log("FRAMEDL_API_KEY is not set");
@@ -64,37 +111,3 @@ async function handleArenaMessage(context: HandlerContext) {
     await context.send("https://www.framedl.xyz/games/arena/create");
   }
 }
-
-run(async (context: HandlerContext) => {
-  const {
-    message: { typeId },
-    version,
-  } = context;
-
-  if (version === "v2") handleSubscribe(context, redisClient);
-  if (typeId === "text" || typeId === "reply") {
-    const {
-      message: {
-        content: { content: text },
-      },
-    } = context;
-
-    if (text.startsWith("/arena")) {
-      await handleArenaMessage(context);
-    } else if (
-      text === "/wordle" ||
-      text === "@wordle" ||
-      text === "🔍" ||
-      text === "🔎"
-    ) {
-      await context.send("https://framedl.xyz");
-    } else if (text === "/help") {
-      await context.send(
-        "For using this bot you can use the following commands:\n\n" +
-          "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
-          "/arena <word count> <audience size> - To start the arena game\n" +
-          "/help - To see commands"
-      );
-    }
-  }
-});
