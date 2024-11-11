@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { V3Client, V2Client } from "@xmtp/message-kit";
+import { V2Client } from "@xmtp/message-kit";
 import { RedisClientType } from "@redis/client";
 
 export async function startCron(
