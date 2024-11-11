@@ -1,6 +1,5 @@
 import cron from "node-cron";
-import { Client as V2Client } from "@xmtp/xmtp-js";
-import { Client as V3Client } from "@xmtp/node-sdk";
+import { V3Client, V2Client } from "@xmtp/message-kit";
 import { RedisClientType } from "@redis/client";
 
 export async function startCron(
@@ -10,7 +9,7 @@ export async function startCron(
   console.warn("\t- Starting daily cron");
   const conversations = await v2client.conversations.list();
   cron.schedule(
-    "0 0 * * *", // Daily or every 5 seconds in debug mode
+    "0 0 * * *",
     async () => {
       const keys = await redisClient.keys("*");
       console.log(`Running daily task. ${keys.length} subscribers.`);
@@ -36,19 +35,4 @@ export async function startCron(
       timezone: "UTC",
     }
   );
-}
-
-export async function startDMToGroupEvery5Seconds(
-  v3client: V3Client,
-  groupId: string
-) {
-  cron.schedule("*/10 * * * * *", async () => {
-    const conversations = await v3client.conversations.list();
-    for (const conversation of conversations) {
-      if (conversation?.id === groupId) {
-        console.log("Sending message to group", conversation.id);
-        await conversation.send("Hello, world!");
-      }
-    }
-  });
 }

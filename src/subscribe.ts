@@ -10,18 +10,17 @@ export async function handleSubscribe(
 ) {
   const {
     message: {
-      content: { content: text },
-      typeId,
+      content: { text },
       sender,
     },
   } = context;
 
-  if (typeId !== "text") {
+  if (!text) {
     /* If the input is not text do nothing */
     return;
   }
 
-  const lowerContent = text?.toLowerCase();
+  const lowerContent = text.toLowerCase();
 
   //Handles unsubscribe and resets step
   if (stopWords.some((word) => lowerContent.includes(word))) {

@@ -3,7 +3,6 @@ import { handleSubscribe } from "./subscribe.js";
 import { startCron } from "./lib/cron.js";
 import { RedisClientType } from "@redis/client";
 import { getRedisClient } from "./lib/redis.js";
-import { startDMToGroupEvery5Seconds } from "./lib/cron.js";
 
 const redisClient: RedisClientType = await getRedisClient();
 const { v2client, client: v3client } = await xmtpClient({
@@ -13,20 +12,22 @@ const { v2client, client: v3client } = await xmtpClient({
   },
 });
 
-//startDMToGroupEvery5Seconds(v3client, "5ce08d7eb4270f4b8e3f13670d7c571a");
 startCron(redisClient, v2client);
 
 run(async (context: HandlerContext) => {
   const {
     message: {
       typeId,
-      content: { content: text },
+      content: { text },
     },
     version,
     group,
   } = context;
 
-  if (text.startsWith("/id")) {
+  if (!text) {
+    return;
+  }
+  if (text?.startsWith("/id")) {
     console.log(group.id);
     context.send(`This group id is: ${group.id}`);
     return;
@@ -35,11 +36,11 @@ run(async (context: HandlerContext) => {
   if (typeId === "text" || typeId === "reply") {
     const {
       message: {
-        content: { content: text },
+        content: { text },
       },
     } = context;
 
-    if (text.startsWith("/arena")) {
+    if (text?.startsWith("/arena")) {
       await handleArenaMessage(context);
     } else if (
       text === "/wordle" ||
@@ -62,12 +63,12 @@ run(async (context: HandlerContext) => {
 async function handleArenaMessage(context: HandlerContext) {
   const {
     message: {
-      content: { content: text },
+      content: { text },
     },
     members,
   } = context;
 
-  if (!text.startsWith("/arena")) {
+  if (!text?.startsWith("/arena")) {
     return;
   }
 
@@ -78,7 +79,7 @@ async function handleArenaMessage(context: HandlerContext) {
     return;
   }
   const participantCount = members && members.length ? members.length - 1 : 0;
-  const args = text.split(" ");
+  const args = text?.split(" ") ?? [];
   const wordCountArg = args[1] ? parseInt(args[1], 10) : 3;
   const audienceSizeArg = args[2] ? parseInt(args[2], 10) : participantCount;
   if (isNaN(wordCountArg) || isNaN(audienceSizeArg)) {
