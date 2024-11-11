@@ -12,6 +12,9 @@
     "@xmtp/message-kit": "1.1.7-beta.12",
     "node-cron": "^3.0.3"
   },
+  "devDependencies": {
+    "@types/node-cron": "^3.0.11"
+  },
   "engines": {
     "node": ">=20"
   }
