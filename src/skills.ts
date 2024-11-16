@@ -6,17 +6,17 @@ export const skills: SkillGroup[] = [
     description: "Provides various gaming experiences.",
     skills: [
       {
-        command: "/wordle",
-        triggers: ["/wordle", "@wordle", "🔎", "🔍"],
+        skill: "/wordle",
         handler: undefined,
+        examples: ["/wordle", "🔎", "🔍"],
         description: "Play wordle.",
         params: {},
       },
       {
-        command: "/id",
+        skill: "/id",
         adminOnly: true,
         handler: undefined,
-        triggers: ["/id"],
+        examples: ["/id"],
         description: "Get the group ID.",
         params: {},
       },
@@ -27,8 +27,8 @@ export const skills: SkillGroup[] = [
     description: "Provides various gaming experiences.",
     skills: [
       {
-        command: "/arena [word count] [audience size]",
-        triggers: ["/arena", "@arena"],
+        skill: "/arena [word count] [audience size]",
+        examples: ["/arena 3 15"],
         handler: undefined,
         description: "Play arena.",
         params: {

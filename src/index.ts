@@ -8,7 +8,7 @@ const redisClient: RedisClientType = await getRedisClient();
 const { v2client, client: v3client } = await xmtpClient({
   hideInitLogMessage: true,
   client: {
-    logging: process.env.NODE_ENV === "production" ? "debug" : "off",
+    structuredLogging: true,
   },
 });
 
