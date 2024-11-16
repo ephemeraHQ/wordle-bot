@@ -17,46 +17,30 @@ startCron(redisClient, v2client);
 run(async (context: HandlerContext) => {
   const {
     message: {
-      typeId,
-      content: { text },
+      content: { skill },
     },
     version,
     group,
   } = context;
 
-  if (!text) {
-    return;
-  }
-  if (text?.startsWith("/id")) {
+  if (skill === "id") {
     console.log(group.id);
     context.send(`This group id is: ${group.id}`);
     return;
   }
   if (version === "v2") handleSubscribe(context, redisClient);
-  if (typeId === "text" || typeId === "reply") {
-    const {
-      message: {
-        content: { text },
-      },
-    } = context;
 
-    if (text?.startsWith("/arena")) {
-      await handleArenaMessage(context);
-    } else if (
-      text === "/wordle" ||
-      text === "@wordle" ||
-      text === "🔍" ||
-      text === "🔎"
-    ) {
-      await context.send("https://framedl.xyz");
-    } else if (text === "/help") {
-      await context.send(
-        "For using this bot you can use the following commands:\n\n" +
-          "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
-          "/arena <word count> <audience size> - To start the arena game\n" +
-          "/help - To see commands"
-      );
-    }
+  if (skill === "arena") {
+    await handleArenaMessage(context);
+  } else if (skill === "wordle") {
+    await context.send("https://framedl.xyz");
+  } else if (skill === "help") {
+    await context.send(
+      "For using this bot you can use the following commands:\n\n" +
+        "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
+        "/arena <word count> <audience size> - To start the arena game\n" +
+        "/help - To see commands"
+    );
   }
 });
 
@@ -67,10 +51,6 @@ async function handleArenaMessage(context: HandlerContext) {
     },
     members,
   } = context;
-
-  if (!text?.startsWith("/arena")) {
-    return;
-  }
 
   const apiKey = process.env.FRAMEDL_API_KEY;
   if (!apiKey) {

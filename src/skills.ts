@@ -8,7 +8,7 @@ export const skills: SkillGroup[] = [
       {
         skill: "/wordle",
         handler: undefined,
-        examples: ["/wordle", "🔎", "🔍"],
+        examples: ["/wordle"],
         description: "Play wordle.",
         params: {},
       },
