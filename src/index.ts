@@ -9,44 +9,42 @@ const { v2client, client: v3client } = await xmtpClient({
   hideInitLogMessage: true,
   client: {
     structuredLogging: true,
+    //@ts-ignore
+    loggingLevel: "debug",
   },
 });
 
 startCron(redisClient, v2client);
 
-run(
-  async (context: HandlerContext) => {
-    const {
-      message: {
-        content: { skill },
-      },
-      version,
-      group,
-    } = context;
+run(async (context: HandlerContext) => {
+  const {
+    message: {
+      content: { skill },
+    },
+    version,
+    group,
+  } = context;
 
-    if (skill === "id") {
-      console.log(group.id);
-      context.send(`This group id is: ${group.id}`);
-      return;
-    }
-    if (version === "v2") handleSubscribe(context, redisClient);
+  if (skill === "id") {
+    console.log(group.id);
+    context.send(`This group id is: ${group.id}`);
+    return;
+  }
+  if (version === "v2") handleSubscribe(context, redisClient);
 
-    if (skill === "arena") {
-      await handleArenaMessage(context);
-    } else if (skill === "wordle") {
-      await context.send("https://framedl.xyz");
-    } else if (skill === "help") {
-      await context.send(
-        "For using this bot you can use the following commands:\n\n" +
-          "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
-          "/arena <word count> <audience size> - To start the arena game\n" +
-          "/help - To see commands"
-      );
-    }
-  },
-
-  { client: { structuredLogging: true } }
-);
+  if (skill === "arena") {
+    await handleArenaMessage(context);
+  } else if (skill === "wordle") {
+    await context.send("https://framedl.xyz");
+  } else if (skill === "help") {
+    await context.send(
+      "For using this bot you can use the following commands:\n\n" +
+        "/wordle, @wordle, 🔍, 🔎 - To start the game\n" +
+        "/arena <word count> <audience size> - To start the arena game\n" +
+        "/help - To see commands"
+    );
+  }
+});
 
 async function handleArenaMessage(context: HandlerContext) {
   const {
