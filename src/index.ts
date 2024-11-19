@@ -1,4 +1,4 @@
-import { run, HandlerContext, xmtpClient } from "@xmtp/message-kit";
+import { run, XMTPContext, xmtpClient } from "@xmtp/message-kit";
 import { handleSubscribe } from "./subscribe.js";
 import { startCron } from "./lib/cron.js";
 import { RedisClientType } from "@redis/client";
@@ -16,7 +16,7 @@ const { v2client, client: v3client } = await xmtpClient({
 
 startCron(redisClient, v2client);
 
-run(async (context: HandlerContext) => {
+run(async (context: XMTPContext) => {
   const {
     message: {
       content: { skill },
@@ -46,7 +46,7 @@ run(async (context: HandlerContext) => {
   }
 });
 
-async function handleArenaMessage(context: HandlerContext) {
+async function handleArenaMessage(context: XMTPContext) {
   const {
     message: {
       content: { text },
