@@ -16,7 +16,6 @@ export async function startCron(
       for (const address of keys) {
         const subscriptionStatus = await redisClient.get(address);
         if (subscriptionStatus === "subscribed") {
-          console.log(`Sending daily update to ${address}`);
           // Logic to send daily updates to each subscriber
           const targetConversation = conversations.find(
             (conv) => conv.peerAddress === address
@@ -29,6 +28,7 @@ export async function startCron(
           }
         }
       }
+      console.log(`Sent daily update to ${keys.length} subscribers.`);
     },
     {
       scheduled: true,
