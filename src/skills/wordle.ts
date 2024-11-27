@@ -1,7 +1,6 @@
 import { XMTPContext } from "@xmtp/message-kit";
 import type { Skill } from "@xmtp/message-kit";
 
-// [!region define]
 export const wordle: Skill[] = [
   {
     skill: "/wordle",
