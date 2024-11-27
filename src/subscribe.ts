@@ -20,7 +20,7 @@ export async function handleSubscribe(
     return;
   }
 
-  const lowerContent = text.toLowerCase();
+  const lowerContent = text?.toLowerCase();
 
   //Handles unsubscribe and resets step
   if (stopWords.some((word) => lowerContent.includes(word))) {
