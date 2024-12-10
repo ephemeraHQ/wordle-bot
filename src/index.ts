@@ -29,3 +29,4 @@ export const agent: Agent = {
     }
   },
 };
+run(agent);
