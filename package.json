@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@redis/client": "^1.6.0",
-    "@xmtp/message-kit": "1.2.13",
+    "@xmtp/message-kit": "1.2.24",
     "node-cron": "^3.0.3"
   },
   "devDependencies": {
