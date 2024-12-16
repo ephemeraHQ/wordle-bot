@@ -1,4 +1,4 @@
-import { Agent, run, XMTPContext, xmtpClient } from "@xmtp/message-kit";
+import { Agent, run, Context, xmtpClient } from "@xmtp/message-kit";
 import { startCron } from "./lib/cron.js";
 import { RedisClientType } from "@redis/client";
 import { getRedisClient } from "./lib/redis.js";
@@ -22,7 +22,7 @@ export const agent: Agent = {
   description: "Wordle game.",
   tag: "@wordle",
   skills: [wordle],
-  onMessage: async (context: XMTPContext) => {
+  onMessage: async (context: Context) => {
     const { version } = context;
     if (version === "v2") {
       handleSubscribe(context, redisClient);

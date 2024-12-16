@@ -1,11 +1,11 @@
-import { XMTPContext } from "@xmtp/message-kit";
+import { Context } from "@xmtp/message-kit";
 import { RedisClientType } from "@redis/client";
 
 const inMemoryCacheStep = new Map<string, number>();
 const stopWords = ["stop", "unsubscribe", "cancel", "list"];
 
 export async function handleSubscribe(
-  context: XMTPContext,
+  context: Context,
   redisClient: RedisClientType
 ) {
   const {
